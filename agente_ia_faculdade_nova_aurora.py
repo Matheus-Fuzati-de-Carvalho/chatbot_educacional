@@ -124,7 +124,7 @@ class BigQueryChatbot:
     def get_table_schema(self, dataset, table):
         colunas_autorizadas = [
             "dataInscricao", "nome", "processoSeletivo", "etapa",
-            "consultor", "objecao", "estado", "curso", "dataMatricula",
+            "consultor", "objecao", "cidade", "curso", "dataMatricula",
             "idade", "faixaEtaria", "origem", "status", "diaSemanaInscricao"
         ]
 
@@ -836,7 +836,7 @@ def mostrar_kpis(df: pd.DataFrame, titulo="KPIs"):
 @st.cache_data(ttl=600)
 def carregar_opcoes_filtros():
     return executar_query("""
-        SELECT DISTINCT nome, email, telefone, processoSeletivo, curso, turno, origem, etapa, objecao, consultor, estado, faixaEtaria, dataInscricao, dataMatricula,
+        SELECT DISTINCT nome, email, telefone, processoSeletivo, curso, turno, origem, etapa, objecao, consultor, cidade, faixaEtaria, dataInscricao, dataMatricula,
                EXTRACT(MONTH FROM dataInscricao) AS mesInscricao,
                EXTRACT(MONTH FROM dataMatricula) AS mesMatricula
         FROM pessoal.chatbot_educacional
@@ -854,7 +854,7 @@ def tabela_por_regra():
     if "df_filtros_cache" not in st.session_state:
         with st.spinner("Carregando filtros..."):
             df_opcoes = executar_query("""
-                SELECT DISTINCT nome, email, telefone, processoSeletivo, curso, turno, origem, etapa, objecao, consultor, estado, faixaEtaria, dataInscricao, dataMatricula,
+                SELECT DISTINCT nome, email, telefone, processoSeletivo, curso, turno, origem, etapa, objecao, consultor, cidade, faixaEtaria, dataInscricao, dataMatricula,
                     EXTRACT(MONTH FROM dataInscricao) AS mesInscricao,
                     EXTRACT(MONTH FROM dataMatricula) AS mesMatricula
                 FROM pessoal.chatbot_educacional
@@ -888,7 +888,7 @@ def tabela_por_regra():
 
     # --- COLUNAS A MOSTRAR ---
     st.markdown("### 📌 Escolha as colunas que deseja ver na tabela:")
-    colunas_disponiveis = ['nome', 'email', 'telefone', 'processoSeletivo', 'curso', 'turno', 'origem', 'etapa', 'objecao', 'consultor', 'estado', 'faixaEtaria', 'dataInscricao', 'dataMatricula']
+    colunas_disponiveis = ['nome', 'email', 'telefone', 'processoSeletivo', 'curso', 'turno', 'origem', 'etapa', 'objecao', 'consultor', 'cidade', 'faixaEtaria', 'dataInscricao', 'dataMatricula']
     colunas_selecionadas = st.multiselect("Colunas a exibir:", colunas_disponiveis, default=colunas_disponiveis)
 
     # --- NOME DO ARQUIVO ---
