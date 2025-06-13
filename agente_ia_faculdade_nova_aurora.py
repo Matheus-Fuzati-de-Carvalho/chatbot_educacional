@@ -979,6 +979,14 @@ if 'autenticado' not in st.session_state:
 else:
     st.title("🤖 Agente de IA - Faculdade Nova Aurora")
 
+    if st.button("📊 Acessar dashboard completo"):
+        st.markdown(
+            """
+            <meta http-equiv="refresh" content="0; url='https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF'" />
+            """,
+            unsafe_allow_html=True
+        )
+    
     st.divider()
 
     st.markdown("""
