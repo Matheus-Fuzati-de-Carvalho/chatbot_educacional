@@ -901,26 +901,46 @@ def tabela_por_regra():
             st.stop()
 
         condicoes = []
+
         if Faixa_Etaria:
-            condicoes.append(f"faixaEtaria IN ({','.join([f\"'{e}'\" for e in Faixa_Etaria])})")
+            lista = ','.join([f"'{e}'" for e in Faixa_Etaria])
+            condicoes.append(f"faixaEtaria IN ({lista})")
+        
         if consultores:
-            condicoes.append(f"consultor IN ({','.join([f\"'{c}'\" for c in consultores])})")
+            lista = ','.join([f"'{c}'" for c in consultores])
+            condicoes.append(f"consultor IN ({lista})")
+        
         if etapas:
-            condicoes.append(f"etapa IN ({','.join([f\"'{e}'\" for e in etapas])})")
+            lista = ','.join([f"'{e}'" for e in etapas])
+            condicoes.append(f"etapa IN ({lista})")
+        
         if cursos:
-            condicoes.append(f"curso IN ({','.join([f\"'{c}'\" for c in cursos])})")
+            lista = ','.join([f"'{c}'" for c in cursos])
+            condicoes.append(f"curso IN ({lista})")
+        
         if turnos:
-            condicoes.append(f"turno IN ({','.join([f\"'{t}'\" for t in turnos])})")
+            lista = ','.join([f"'{t}'" for t in turnos])
+            condicoes.append(f"turno IN ({lista})")
+        
         if processos:
-            condicoes.append(f"processoSeletivo IN ({','.join([f\"'{p}'\" for p in processos])})")
+            lista = ','.join([f"'{p}'" for p in processos])
+            condicoes.append(f"processoSeletivo IN ({lista})")
+        
         if origens:
-            condicoes.append(f"origem IN ({','.join([f\"'{o}'\" for o in origens])})")
+            lista = ','.join([f"'{o}'" for o in origens])
+            condicoes.append(f"origem IN ({lista})")
+        
         if objeções:
-            condicoes.append(f"objecao IN ({','.join([f\"'{o}'\" for o in objeções])})")
+            lista = ','.join([f"'{o}'" for o in objeções])
+            condicoes.append(f"objecao IN ({lista})")
+        
         if meses_inscricao:
-            condicoes.append(f"EXTRACT(MONTH FROM dataInscricao) IN ({','.join([str(m) for m in meses_inscricao])})")
+            lista = ','.join([str(m) for m in meses_inscricao])
+            condicoes.append(f"EXTRACT(MONTH FROM dataInscricao) IN ({lista})")
+        
         if meses_matricula:
-            condicoes.append(f"EXTRACT(MONTH FROM dataMatricula) IN ({','.join([str(m) for m in meses_matricula])})")
+            lista = ','.join([str(m) for m in meses_matricula])
+            condicoes.append(f"EXTRACT(MONTH FROM dataMatricula) IN ({lista})")
 
 
         where_clause = " AND ".join(condicoes)
