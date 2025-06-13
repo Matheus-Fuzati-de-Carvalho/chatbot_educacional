@@ -992,18 +992,8 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("📊 Acessar dashboard completo"):
-        st.markdown(
-            """
-            <a href="https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF" target="_blank">
-                <button style='padding:10px 20px; font-size:16px; border-radius:8px; background-color:#0a2540; color:white; border:none;'>
-            📊 Acessar dashboard completo
-        </button>
-    </a>
-    """,
-            unsafe_allow_html=True
-        )
-    
+    st.link_button("📊 Acessar dashboard completo", "https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF")
+
     st.divider()
 
 
