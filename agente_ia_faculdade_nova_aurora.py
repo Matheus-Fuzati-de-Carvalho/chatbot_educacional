@@ -992,7 +992,10 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("[📊 Acessar dashboard completo](https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF)")
+    st.markdown(
+    "🔗 [Clique aqui para acessar o dashboard completo no Looker Studio](https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF)"
+)
+
 
 
     st.divider()
