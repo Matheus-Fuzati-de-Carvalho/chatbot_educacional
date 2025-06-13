@@ -987,15 +987,11 @@ else:
             Neste painel você tem acesso a um resumo dos principais KPI's do processo de captação da faculdade. <br>
             Também tem acesso às <strong>perguntas mais frequentes</strong> para facilitar a navegação pelos dados.<br>
             Caso prefira, pode <strong>fazer perguntas personalizadas</strong> em linguagem natural, com respostas geradas por IA.<br>
-            Por fim, acesse a seção de <strong>resumos de inscrições e matrículas</strong> para obter insights estratégicos com gráficos e análises automáticas.
+            Acesse a seção de <strong>resumos de inscrições e matrículas</strong> para obter insights estratégicos com gráficos e análises automáticas.<br>
+            Link do dashboard completo: https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF
         </p>
     </div>
     """, unsafe_allow_html=True)
-
-    st.markdown(
-    "🔗 [Clique aqui para acessar o dashboard completo no Looker Studio](https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF)"
-)
-
 
 
     st.divider()
