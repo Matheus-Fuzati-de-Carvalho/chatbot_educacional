@@ -979,6 +979,8 @@ if 'autenticado' not in st.session_state:
 else:
     st.title("🤖 Agente de IA - Faculdade Nova Aurora")
 
+    st.divider()
+    
     if st.button("📊 Acessar dashboard completo"):
         st.markdown(
             """
