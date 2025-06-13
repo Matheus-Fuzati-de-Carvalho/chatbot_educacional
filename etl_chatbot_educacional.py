@@ -1,13 +1,12 @@
 # Criação da base fake
-
 import pandas as pd
 import random
 import numpy as np
 from faker import Faker
 from datetime import datetime, timedelta
-
-credencial = 'chave_gcp.json' # Chave fake, apenas demonstração.
-
+import pandas_gbq
+from pandas_gbq import to_gbq
+from google.oauth2 import service_account
 
 # Configurações iniciais
 faker = Faker('pt_BR')
@@ -32,29 +31,37 @@ turnos = ['Noturno', 'Diurno', 'EAD']
 
 curso_turnos = [f"{curso} - {turno}" for curso in cursos for turno in turnos]
 
+
 # Processo seletivo
 processos = ['ENEM', 'Vestibular', 'FIES', 'Transferência', 'ProUni', 'Segunda Graduação']
 
 # Etapas
-etapas_validas = ['Interessado', 'Pré-Inscrito', 'Inscrito', 'Aprovado', 'Reprovado', 'Matriculado']
+etapas_validas = ['Interessado', 'Inscrito', 'Aprovado', 'Reprovado', 'Matriculado']
 
 # Consultores
+consultores = []
 
-consultores = [faker.name() for _ in range(8)]
+while len(consultores) < 4:
+    nome = faker.name()
+    if not any(prefix in nome.lower() for prefix in ['sr.', 'sra.', 'srta.', 'dr.', 'dra.']):
+        if nome not in consultores:
+            consultores.append(nome)
 
-# Remover prefixos indesejados como Sr., Sra., etc
-for i in range(len(consultores)):
-    while any(prefix in consultores[i].lower() for prefix in ['sr.', 'sra.', 'srta.', 'dr.', 'dra.']):
-        consultores[i] = faker.name()
+# Gera probabilidades aleatórias
+pesos = np.random.dirichlet(np.ones(4), size=1)[0]
+
 
 # Objeções
 objeções = ['Distância', 'Preço', 'Carga horária', 'Desistência', 'Curso não disponível', 'Problemas pessoais']
 
-# Estados brasileiros
-estados_br = ['SP', 'RJ', 'MG', 'BA', 'RS', 'PR', 'SC', 'PE', 'CE', 'GO', 'PA', 'AM', 'ES', 'MA', 'MT']
+# Cidades
+cidades = ['São Paulo', 'Campinas', 'São Bernardo do Campo', 'Santo André', 'Guarulhos',
+ 'Osasco', 'Sorocaba', 'Ribeirão Preto', 'São José dos Campos', 'Santos',
+ 'Bauru', 'Mogi das Cruzes', 'Jundiaí', 'Piracicaba', 'São Carlos']
+
 
 # Origens
-origens = ['google', 'facebook', 'instagram', 'tiktok']
+origens = ['Google', 'Facebook', 'Instagram', 'Tiktok']
 
 # Datas de inscrição com picos
 def gerar_data_inscricao():
@@ -91,9 +98,9 @@ for i in range(n_total):
     if status == 'Ganho':
         etapa = 'Matriculado'
     elif status == 'Perdido':
-        etapa = random.choices(['Interessado', 'Pré-Inscrito', 'Inscrito', 'Reprovado'], weights=[0.2, 0.2, 0.4, 0.2])[0]
+        etapa = random.choices(['Interessado', 'Inscrito', 'Reprovado'], weights=[0.3, 0.5, 0.2])[0]
     else:
-        etapa = random.choices(['Interessado', 'Pré-Inscrito', 'Inscrito', 'Aprovado'], weights=[0.3, 0.3, 0.3, 0.1])[0]
+        etapa = random.choices(['Interessado', 'Inscrito', 'Aprovado'], weights=[0.35, 0.45, 0.1])[0]
 
     consultor = random.choice(consultores)
     data_inscricao = datas_inscricao[i].date()
@@ -106,9 +113,9 @@ for i in range(n_total):
     objecao = random.choice(objeções) if status == 'Perdido' else ''
 
     if 'EAD' in curso_turno:
-        estado = random.choice(estados_br)
+        cidade = random.choice(cidades)
     else:
-        estado = 'SP'
+        cidade = 'São Paulo'
 
     origem = random.choice(origens)
     idade = int(np.clip(np.random.normal(22, 6), 17, 60))
@@ -117,15 +124,17 @@ for i in range(n_total):
         i + 1, nome, email, telefone_formatado, curso_turno, processo, status, etapa,
         consultor, data_inscricao.strftime('%Y-%m-%d'),
         data_matricula.strftime('%Y-%m-%d') if data_matricula else '',
-        objecao, estado, origem, idade
+        objecao, cidade, origem, idade
     ])
 
 # DataFrame final
 colunas = ['idRegistro', 'nome', 'email', 'telefone', 'cursoTurno', 'processoSeletivo', 'status',
-           'etapa', 'consultor', 'dataInscricao', 'dataMatricula', 'objecao', 'estado', 'origem', 'idade']
+           'etapa', 'consultor', 'dataInscricao', 'dataMatricula', 'objecao', 'cidade', 'origem', 'idade']
 
 df = pd.DataFrame(dados, columns=colunas)
 
+# Atribui os consultores ao DataFrame
+df['consultor'] = np.random.choice(consultores, size=len(df), p=pesos)
 
 # TRATAMENTO DOS DADOS
 
@@ -152,8 +161,19 @@ dias_semana = {
 
 df['diaSemanaInscricao'] = df['dataInscricao'].dt.day_name().map(dias_semana)
 
-# DIMINUINDO USO DE MEMÓRIA
 
+ordem = {
+    'Interessado': 1,
+    'Inscrito': 2,
+    'Reprovado': 3,
+    'Aprovado': 4,
+    'Matriculado': 5
+}
+
+df['ordemEtapa'] = df['etapa'].map(ordem)
+
+
+# Diminuindo uso de memória
 mem_mb = df.memory_usage(deep=True).sum() / (1024**2)
 
 # Ajuste de tipos das colunas para diminuição de uso de memória
@@ -162,13 +182,14 @@ df['status'] = df['status'].astype('category')
 df['etapa'] = df['etapa'].astype('category')
 df['consultor'] = df['consultor'].astype('category')
 df['objecao'] = df['objecao'].astype('category')
-df['estado'] = df['estado'].astype('category')
+df['cidade'] = df['cidade'].astype('category')
 df['origem'] = df['origem'].astype('category')
 df['curso'] = df['curso'].astype('category')
 df['turno'] = df['turno'].astype('category')
 df['diaSemanaInscricao'] = df['diaSemanaInscricao'].astype('category')
 df['dataMatricula'] = pd.to_datetime(df['dataMatricula'], errors='coerce')
 df['idade'] = df['idade'].astype(int)
+df['ordemEtapa'] = df['ordemEtapa'].astype(int)
 
 
 # Calculando diferença no uso da memória
@@ -179,11 +200,13 @@ print(f"""Depois: {mem_mb_novo:.2f} MB""")
 print(f"""Diferença: {((mem_mb_novo - mem_mb) / mem_mb) * 100 :.2f}%""")
 
 
+credencial = "Credencial do GBQ" # - Nome falso apenas para demonstração de aplicação
+
 # Carregar para o BigQuery
 to_gbq(
-    dataframe=df,  # Substitua pelo seu DataFrame
+    dataframe=df,
     destination_table="pessoal.chatbot_educacional",
     project_id="cloud-engineer-444301-r6",
-    if_exists="replace",  # Opções: "fail", "replace", "append"
-    credentials=credencial,  # Sua credencial configurada
+    if_exists="replace",
+    credentials=credencial,
 )
