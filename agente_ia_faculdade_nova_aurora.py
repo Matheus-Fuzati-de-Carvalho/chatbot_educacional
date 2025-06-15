@@ -101,9 +101,6 @@ hr {
 </style>
 """, unsafe_allow_html=True)
 
-# Código de acesso
-SECRET_CODE = "senha123"
-
 #Credencial OPENAI
 client_openai = OpenAI(api_key=st.secrets["TOKENAPIST"])
 
@@ -420,10 +417,10 @@ def resumo(tipo):
                 st.markdown(
                     f"""
                     <div style="
-                        background-color: ##29394a;
+                        background-color: #29394a;
                         border-radius: 16px;
                         padding: 0.2rem;
-                        border: 1px solid ##29394a;
+                        border: 1px solid #29394a;
                         ">
                     """,
                     unsafe_allow_html=True
@@ -438,14 +435,8 @@ def resumo(tipo):
                 st.markdown("</div>", unsafe_allow_html=True)
 
 
-# 1. Inicialização global do histórico (logo no início do script)
 if 'historico_perguntas' not in st.session_state:
     st.session_state['historico_perguntas'] = []
-
-
-# 2. Função global para adicionar perguntas e respostas ao histórico
-def adicionar_historico(pergunta, resposta):
-    st.session_state['historico_perguntas'].append({"pergunta": pergunta, "resposta": resposta})
 
 
 # 3. Função para mostrar o histórico
@@ -725,63 +716,6 @@ def show_logo():
         unsafe_allow_html=True,
     )
 
-
-# def login():
-#     logo_base64 = get_base64_of_bin_file("Logo.png")
-#     st.markdown(
-#         f"""
-#         <style>
-#             .login-container {{
-#                 background-color: #0a2540;
-#                 padding: 2rem;
-#                 border-radius: 10px;
-#                 box-shadow: 0 0 10px rgba(0,0,0,0.3);
-#                 color: white;
-#                 text-align: center;
-#                 max-width: 1200px;
-#                 margin: auto;
-#             }}
-#             .login-title {{
-#                 font-size: 2rem;
-#                 font-weight: bold;
-#                 color: #ffffff;
-#                 margin-bottom: 1rem;
-#             }}
-#             .login-intro {{
-#                 font-size: 1.1rem;
-#                 color: #cbd6e2;
-#                 margin-bottom: 2rem;
-#             }}
-#             .logo {{
-#                 position: fixed;
-#                 top: 70px;
-#                 right: 20px;
-#                 width: 120px;
-#                 z-index: 1000;
-#             }}
-#         </style>
-
-#         <div class="login-container">
-#             <div class="login-title">🤖 Agente de IA - Faculdade Nova Aurora</div>
-#             <div class="login-intro">
-#                 Bem-vindo ao assistente inteligente da Faculdade Nova Aurora!<br>
-#                 Aqui você pode explorar dados de inscrições e matrículas usando linguagem natural.<br>
-#                 Receba respostas claras, visuais e insights detalhados em poucos segundos.
-#             </div>
-#         </div>
-
-
-#         <img src="data:image/png;base64,{logo_base64}" class="logo" />
-#         """,
-#         unsafe_allow_html=True
-#     )
-
-#     codigo = st.text_input("Digite o código de acesso:", type="password", key="codigo_login")
-#     if st.button("Entrar"):
-#         if codigo == SECRET_CODE:
-#             st.session_state['autenticado'] = True
-#         else:
-#             st.error("Código incorreto. Tente novamente.")
 
 
 def mostrar_kpis(df: pd.DataFrame, titulo="KPIs"):
