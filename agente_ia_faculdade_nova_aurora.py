@@ -726,62 +726,62 @@ def show_logo():
     )
 
 
-def login():
-    logo_base64 = get_base64_of_bin_file("Logo.png")
-    st.markdown(
-        f"""
-        <style>
-            .login-container {{
-                background-color: #0a2540;
-                padding: 2rem;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.3);
-                color: white;
-                text-align: center;
-                max-width: 1200px;
-                margin: auto;
-            }}
-            .login-title {{
-                font-size: 2rem;
-                font-weight: bold;
-                color: #ffffff;
-                margin-bottom: 1rem;
-            }}
-            .login-intro {{
-                font-size: 1.1rem;
-                color: #cbd6e2;
-                margin-bottom: 2rem;
-            }}
-            .logo {{
-                position: fixed;
-                top: 70px;
-                right: 20px;
-                width: 120px;
-                z-index: 1000;
-            }}
-        </style>
+# def login():
+#     logo_base64 = get_base64_of_bin_file("Logo.png")
+#     st.markdown(
+#         f"""
+#         <style>
+#             .login-container {{
+#                 background-color: #0a2540;
+#                 padding: 2rem;
+#                 border-radius: 10px;
+#                 box-shadow: 0 0 10px rgba(0,0,0,0.3);
+#                 color: white;
+#                 text-align: center;
+#                 max-width: 1200px;
+#                 margin: auto;
+#             }}
+#             .login-title {{
+#                 font-size: 2rem;
+#                 font-weight: bold;
+#                 color: #ffffff;
+#                 margin-bottom: 1rem;
+#             }}
+#             .login-intro {{
+#                 font-size: 1.1rem;
+#                 color: #cbd6e2;
+#                 margin-bottom: 2rem;
+#             }}
+#             .logo {{
+#                 position: fixed;
+#                 top: 70px;
+#                 right: 20px;
+#                 width: 120px;
+#                 z-index: 1000;
+#             }}
+#         </style>
 
-        <div class="login-container">
-            <div class="login-title">🤖 Agente de IA - Faculdade Nova Aurora</div>
-            <div class="login-intro">
-                Bem-vindo ao assistente inteligente da Faculdade Nova Aurora!<br>
-                Aqui você pode explorar dados de inscrições e matrículas usando linguagem natural.<br>
-                Receba respostas claras, visuais e insights detalhados em poucos segundos.
-            </div>
-        </div>
+#         <div class="login-container">
+#             <div class="login-title">🤖 Agente de IA - Faculdade Nova Aurora</div>
+#             <div class="login-intro">
+#                 Bem-vindo ao assistente inteligente da Faculdade Nova Aurora!<br>
+#                 Aqui você pode explorar dados de inscrições e matrículas usando linguagem natural.<br>
+#                 Receba respostas claras, visuais e insights detalhados em poucos segundos.
+#             </div>
+#         </div>
 
 
-        <img src="data:image/png;base64,{logo_base64}" class="logo" />
-        """,
-        unsafe_allow_html=True
-    )
+#         <img src="data:image/png;base64,{logo_base64}" class="logo" />
+#         """,
+#         unsafe_allow_html=True
+#     )
 
-    codigo = st.text_input("Digite o código de acesso:", type="password", key="codigo_login")
-    if st.button("Entrar"):
-        if codigo == SECRET_CODE:
-            st.session_state['autenticado'] = True
-        else:
-            st.error("Código incorreto. Tente novamente.")
+#     codigo = st.text_input("Digite o código de acesso:", type="password", key="codigo_login")
+#     if st.button("Entrar"):
+#         if codigo == SECRET_CODE:
+#             st.session_state['autenticado'] = True
+#         else:
+#             st.error("Código incorreto. Tente novamente.")
 
 
 def mostrar_kpis(df: pd.DataFrame, titulo="KPIs"):
@@ -846,10 +846,6 @@ def carregar_opcoes_filtros():
         FROM pessoal.chatbot_educacional
         WHERE nome IS NOT NULL
     """)
-
-import io
-
-import io
 
 def tabela_por_regra():
     st.subheader("📋 Gerar Tabela com Filtros Avançados")
@@ -973,130 +969,124 @@ def tabela_por_regra():
                 file_name=f"{nome_tabela.strip()}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+            
+
+st.title("🤖 Agente de IA - Faculdade Nova Aurora")
+
+st.divider()
+
+st.markdown("""
+<div style='padding: 0px 10px 10px 10px;'>
+    <p style='color: #000000; font-size: 1.15rem;'>
+        Neste painel você tem acesso a um resumo dos principais KPI's do processo de captação da faculdade. <br>
+        Também tem acesso às <strong>perguntas mais frequentes</strong> para facilitar a navegação pelos dados.<br>
+        Caso prefira, pode <strong>fazer perguntas personalizadas</strong> em linguagem natural, com respostas geradas por IA.<br>
+        Acesse a seção de <strong>resumos de inscrições e matrículas</strong> para obter insights estratégicos com gráficos e análises automáticas.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 
+st.markdown(
+"   - [🔗 Clique aqui para acessar o dashboard completo](https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF)")
 
-if 'autenticado' not in st.session_state:
-    login()
-# if 1 == 0:
-#     login()
+
+st.divider()
+
+
+# 1. Garantir que os dados estejam carregados
+if 'df_inscricoes' not in st.session_state:
+    df_inscricoes = executar_query("""
+        SELECT nome, curso, etapa, turno, processoSeletivo, objecao, dataInscricao
+        FROM pessoal.chatbot_educacional
+        WHERE nome IS NOT NULL
+    """)
+    df_inscricoes['dataInscricao'] = pd.to_datetime(df_inscricoes['dataInscricao'])
+    df_inscricoes['data'] = df_inscricoes['dataInscricao'].dt.date
+    st.session_state['df_inscricoes'] = df_inscricoes
 else:
-    st.title("🤖 Agente de IA - Faculdade Nova Aurora")
-    
-    st.divider()
+    df_inscricoes = st.session_state['df_inscricoes']
 
-    st.markdown("""
-    <div style='padding: 0px 10px 10px 10px;'>
-        <p style='color: #000000; font-size: 1.15rem;'>
-            Neste painel você tem acesso a um resumo dos principais KPI's do processo de captação da faculdade. <br>
-            Também tem acesso às <strong>perguntas mais frequentes</strong> para facilitar a navegação pelos dados.<br>
-            Caso prefira, pode <strong>fazer perguntas personalizadas</strong> em linguagem natural, com respostas geradas por IA.<br>
-            Acesse a seção de <strong>resumos de inscrições e matrículas</strong> para obter insights estratégicos com gráficos e análises automáticas.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+if 'df_matriculas' not in st.session_state:
+    df_matriculas = executar_query("""
+        SELECT nome, curso, etapa, turno, processoSeletivo, objecao, dataInscricao
+        FROM pessoal.chatbot_educacional
+        WHERE nome IS NOT NULL AND etapa = 'Matriculado'
+    """)
+    df_matriculas['dataInscricao'] = pd.to_datetime(df_matriculas['dataInscricao'])
+    df_matriculas['data'] = df_matriculas['dataInscricao'].dt.date
+    st.session_state['df_matriculas'] = df_matriculas
+else:
+    df_matriculas = st.session_state['df_matriculas']
+
+# 2. Resumo dos dados
+resumo_inscricoes = {
+    "total_inscritos": len(df_inscricoes),
+    "por_curso": df_inscricoes['curso'].value_counts().to_dict(),
+    "por_processo": df_inscricoes['processoSeletivo'].value_counts().to_dict()
+}
+
+resumo_matriculas = {
+    "total_inscritos": len(df_matriculas),
+    "por_curso": df_matriculas['curso'].value_counts().to_dict(),
+    "por_processo": df_matriculas['processoSeletivo'].value_counts().to_dict()
+}
+
+mostrar_kpis(df_inscricoes, titulo="Resumo")
 
 
-    st.markdown(
-    "   - [🔗 Clique aqui para acessar o dashboard completo](https://lookerstudio.google.com/u/2/reporting/20a45689-fd6b-4b79-bf2e-76c9d73bb1d8/page/iG4NF)")
+show_logo()
 
-    
-    st.divider()
+with st.sidebar.expander("🕘 Histórico de perguntas"):
+    if 'historico_perguntas' in st.session_state and st.session_state['historico_perguntas']:
+        perguntas_para_remover = []
 
+        for i in range(len(st.session_state['historico_perguntas'])):
+            item = st.session_state['historico_perguntas'][i]
+            st.markdown(f"**❓ {item['pergunta']}**", unsafe_allow_html=True)
+            st.markdown(f"🧠 {item['resposta']}", unsafe_allow_html=True)
+            if st.button(f"Remover", key=f"remover_{i}"):
+                perguntas_para_remover.append(i)
+            st.markdown("<hr style='border: 1px solid white;'>", unsafe_allow_html=True)
 
-    # 1. Garantir que os dados estejam carregados
-    if 'df_inscricoes' not in st.session_state:
-        df_inscricoes = executar_query("""
-            SELECT nome, curso, etapa, turno, processoSeletivo, objecao, dataInscricao
-            FROM pessoal.chatbot_educacional
-            WHERE nome IS NOT NULL
-        """)
-        df_inscricoes['dataInscricao'] = pd.to_datetime(df_inscricoes['dataInscricao'])
-        df_inscricoes['data'] = df_inscricoes['dataInscricao'].dt.date
-        st.session_state['df_inscricoes'] = df_inscricoes
+        # Remover em ordem reversa para não bagunçar os índices
+        for idx in sorted(perguntas_para_remover, reverse=True):
+            st.session_state['historico_perguntas'].pop(idx)
+
+        if st.button("🗑️ Limpar todo o histórico", key="limpar_tudo"):
+            st.session_state['historico_perguntas'] = []
+            st.experimental_rerun()
     else:
-        df_inscricoes = st.session_state['df_inscricoes']
+        st.info("Nenhuma pergunta registrada ainda.")
 
-    if 'df_matriculas' not in st.session_state:
-        df_matriculas = executar_query("""
-            SELECT nome, curso, etapa, turno, processoSeletivo, objecao, dataInscricao
-            FROM pessoal.chatbot_educacional
-            WHERE nome IS NOT NULL AND etapa = 'Matriculado'
-        """)
-        df_matriculas['dataInscricao'] = pd.to_datetime(df_matriculas['dataInscricao'])
-        df_matriculas['data'] = df_matriculas['dataInscricao'].dt.date
-        st.session_state['df_matriculas'] = df_matriculas
-    else:
-        df_matriculas = st.session_state['df_matriculas']
-
-    # 2. Resumo dos dados
-    resumo_inscricoes = {
-        "total_inscritos": len(df_inscricoes),
-        "por_curso": df_inscricoes['curso'].value_counts().to_dict(),
-        "por_processo": df_inscricoes['processoSeletivo'].value_counts().to_dict()
-    }
-
-    resumo_matriculas = {
-        "total_inscritos": len(df_matriculas),
-        "por_curso": df_matriculas['curso'].value_counts().to_dict(),
-        "por_processo": df_matriculas['processoSeletivo'].value_counts().to_dict()
-    }
-
-    mostrar_kpis(df_inscricoes, titulo="Resumo")
+st.divider()
 
 
-    show_logo()
+dict_perguntas = carregar_dict_perguntas()
 
-    with st.sidebar.expander("🕘 Histórico de perguntas"):
-        if 'historico_perguntas' in st.session_state and st.session_state['historico_perguntas']:
-            perguntas_para_remover = []
+col1, col2 = st.columns(2)
+with col1:
+    exibir_perguntas_frequentes(dict_perguntas, "Inscrições")
+with col2:
+    exibir_perguntas_frequentes(dict_perguntas, "Matrículas")
 
-            for i in range(len(st.session_state['historico_perguntas'])):
-                item = st.session_state['historico_perguntas'][i]
-                st.markdown(f"**❓ {item['pergunta']}**", unsafe_allow_html=True)
-                st.markdown(f"🧠 {item['resposta']}", unsafe_allow_html=True)
-                if st.button(f"Remover", key=f"remover_{i}"):
-                    perguntas_para_remover.append(i)
-                st.markdown("<hr style='border: 1px solid white;'>", unsafe_allow_html=True)
+st.divider()
+col3, col4 = st.columns(2)
 
-            # Remover em ordem reversa para não bagunçar os índices
-            for idx in sorted(perguntas_para_remover, reverse=True):
-                st.session_state['historico_perguntas'].pop(idx)
+if 'chatbot_bq' not in st.session_state:
+    st.session_state.chatbot_bq = BigQueryChatbot(credentials, credentials.project_id)
 
-            if st.button("🗑️ Limpar todo o histórico", key="limpar_tudo"):
-                st.session_state['historico_perguntas'] = []
-                st.experimental_rerun()
-        else:
-            st.info("Nenhuma pergunta registrada ainda.")
+perguntas_livres()
 
-    st.divider()
+st.divider()
 
+resumo("Inscrições")
+resumo("Matrículas")
 
-    dict_perguntas = carregar_dict_perguntas()
+st.divider()
 
-    col1, col2 = st.columns(2)
-    with col1:
-        exibir_perguntas_frequentes(dict_perguntas, "Inscrições")
-    with col2:
-        exibir_perguntas_frequentes(dict_perguntas, "Matrículas")
+tabela_por_regra()
 
-    st.divider()
-    col3, col4 = st.columns(2)
+st.divider()
 
-    if 'chatbot_bq' not in st.session_state:
-        st.session_state.chatbot_bq = BigQueryChatbot(credentials, credentials.project_id)
-
-    perguntas_livres()
-
-    st.divider()
-
-    resumo("Inscrições")
-    resumo("Matrículas")
-
-    st.divider()
-
-    tabela_por_regra()
-
-    st.divider()
-
-    tela_sugestoes()
+tela_sugestoes()
