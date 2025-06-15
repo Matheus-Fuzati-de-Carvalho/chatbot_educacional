@@ -478,28 +478,6 @@ def estilo_futurista_barras(fig, titulo=''):
     )
     return fig
 
-def estilo_futurista_barras_horizontais(fig, titulo=''):
-    fig.update_traces(
-        marker=dict(color='#0a2540', line=dict(width=0), opacity=0.9),
-        textposition='outside',
-        textfont=dict(size=12),
-        width=0.6
-    )
-    fig.update_layout(
-        title=dict(text=titulo, font=dict(size=18, color='#0a2540'), x=0.01),
-        plot_bgcolor='white',
-        paper_bgcolor='white',
-        xaxis=dict(showgrid=False, title='', tickangle=0),
-        yaxis=dict(showgrid=False, title=''),
-        showlegend=False,
-        font=dict(color='#0a2540'),
-        height=400,
-        margin=dict(l=40, r=20, t=60, b=40),
-        bargap=0.25,
-        orientation='h'
-    )
-    return fig
-
 
 def estilo_futurista_linha(fig, titulo=''):
     fig.update_traces(
@@ -558,8 +536,8 @@ def tela_inscricoes(resumo=False):
         df_curso = df['curso'].value_counts().reset_index()
         df_curso.columns = ['curso', 'count']
         df_curso = df_curso.sort_values(by='count', ascending=False).head(10)
-        fig_curso = px.bar(df_curso, y='curso', x='count', text='count')
-        st.plotly_chart(estilo_futurista_barras_horizontais(fig_curso, "Inscrições por Curso"), use_container_width=True)
+        fig_curso = px.bar(df_curso, y='curso', x='count', text='count', orientation='h')
+        st.plotly_chart(estilo_futurista_barras(fig_curso, "Inscrições por Curso"), use_container_width=True)
 
         # 3. Turno (pizza)
         df_turno = df[df['turno'].isin(['Diurno', 'Noturno', 'EAD'])]
@@ -666,8 +644,8 @@ def tela_matriculas(resumo=False):
         df_curso = df['curso'].value_counts().reset_index()
         df_curso.columns = ['curso', 'count']
         df_curso = df_curso.sort_values(by='count', ascending=False).head(10)
-        fig_curso = px.bar(df_curso, y='curso', x='count', text='count')
-        st.plotly_chart(estilo_futurista_barras_horizontais(fig_curso, "Matrículas por Curso"), use_container_width=True)
+        fig_curso = px.bar(df_curso, y='curso', x='count', text='count', orientation='h')
+        st.plotly_chart(estilo_futurista_barras(fig_curso, "Matrículas por Curso"), use_container_width=True)
 
         # 3. Turno
         df_turno = df[df['turno'].isin(['Diurno', 'Noturno', 'EAD'])]
