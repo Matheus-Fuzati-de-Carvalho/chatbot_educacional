@@ -535,6 +535,7 @@ def tela_inscricoes(resumo=False):
         # 2. Curso
         df_curso = df['curso'].value_counts().reset_index()
         df_curso.columns = ['curso', 'count']
+        df_curso = df_curso.sort_values(by='count', ascending=False).head(10)
         fig_curso = px.bar(df_curso, x='curso', y='count', text='count')
         st.plotly_chart(estilo_futurista_barras(fig_curso, "Inscrições por Curso"), use_container_width=True)
 
@@ -642,6 +643,7 @@ def tela_matriculas(resumo=False):
         # 2. Curso
         df_curso = df['curso'].value_counts().reset_index()
         df_curso.columns = ['curso', 'count']
+        df_curso = df_curso.sort_values(by='count', ascending=False).head(10)
         fig_curso = px.bar(df_curso, x='curso', y='count', text='count')
         st.plotly_chart(estilo_futurista_barras(fig_curso, "Matrículas por Curso"), use_container_width=True)
 
