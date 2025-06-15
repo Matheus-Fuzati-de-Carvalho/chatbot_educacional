@@ -8,6 +8,7 @@ import datetime
 import re
 import os
 import base64
+import io
 
 # --- CONFIGURAÇÕES INICIAIS ---
 
