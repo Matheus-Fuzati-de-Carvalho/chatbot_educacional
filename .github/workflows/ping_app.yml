@@ -1,4 +1,4 @@
-name: Ping Streamlit App
+name: Ping Streamlit (via browser)
 
 on:
   schedule:
@@ -9,6 +9,19 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Streamlit App
+      - name: Instala Playwright
         run: |
-          curl -s -A "Mozilla/5.0" https://agente-ia-nova-aurora.streamlit.app || echo "Falha ao pingar"
+          npm install -g playwright
+          playwright install chromium
+
+      - name: Visita o app como navegador
+        run: |
+          node -e "
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+            await page.goto('https://agente-ia-nova-aurora.streamlit.app', { waitUntil: 'load' });
+            await new Promise(r => setTimeout(r, 8000));  // Espera carregar
+            await browser.close();
+          })();"
