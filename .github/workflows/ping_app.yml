@@ -8,13 +8,21 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    steps:
-      - name: Instala Playwright
-        run: |
-          npm install -g playwright
-          playwright install chromium
 
-      - name: Visita o app como navegador
+    steps:
+      - name: Checkout (dummy step)
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar Playwright
+        run: |
+          npm install playwright
+
+      - name: Visitar o app como navegador
         run: |
           node -e "
           const { chromium } = require('playwright');
@@ -22,6 +30,6 @@ jobs:
             const browser = await chromium.launch();
             const page = await browser.newPage();
             await page.goto('https://agente-ia-nova-aurora.streamlit.app', { waitUntil: 'load' });
-            await new Promise(r => setTimeout(r, 8000));  // Espera carregar
+            await new Promise(r => setTimeout(r, 8000));
             await browser.close();
           })();"
