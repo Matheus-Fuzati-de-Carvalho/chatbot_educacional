@@ -2,8 +2,8 @@ name: Ping Streamlit (via browser)
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
-  workflow_dispatch:
+    - cron: "*/30 * * * *"  # Executa a cada 30 minutos
+  workflow_dispatch:        # Também pode ser executado manualmente
 
 jobs:
   ping:
@@ -18,19 +18,24 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Instalar Playwright
+      - name: Instalar Playwright e navegador
         run: |
           npm install playwright
-          npx playwright install  # ← esta linha é essencial!
+          npx playwright install
 
       - name: Visitar o app como navegador
         run: |
           node -e "
           const { chromium } = require('playwright');
           (async () => {
-            const browser = await chromium.launch();
+            const browser = await chromium.launch({ headless: true });
             const page = await browser.newPage();
-            await page.goto('https://agente-ia-nova-aurora.streamlit.app', { waitUntil: 'load' });
-            await new Promise(r => setTimeout(r, 8000));
+            await page.goto('https://agente-ia-nova-aurora.streamlit.app', { waitUntil: 'networkidle' });
+            await page.waitForTimeout(5000); // espera a renderização
+
+            // Interação leve: scroll na página
+            await page.evaluate(() => window.scrollBy(0, 300));
+            await page.waitForTimeout(3000);
+
             await browser.close();
           })();"
