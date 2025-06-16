@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout (dummy step)
+      - name: Checkout (dummy)
         uses: actions/checkout@v3
 
       - name: Instalar Node.js
@@ -21,6 +21,7 @@ jobs:
       - name: Instalar Playwright
         run: |
           npm install playwright
+          npx playwright install  # ← esta linha é essencial!
 
       - name: Visitar o app como navegador
         run: |
