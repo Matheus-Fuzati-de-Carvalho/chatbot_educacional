@@ -318,7 +318,7 @@ def exibir_perguntas_frequentes(dict_df, tipo):
 
 def gerar_sql_e_resposta_livre(pergunta, tipo):
     prompt = f"""
-Você é um assistente que gera queries SQL para análise dos dados da Faculdade Fuzati no BigQuery.
+Você é um assistente que gera queries SQL para análise dos dados da Faculdade Nova Aurora no BigQuery.
 Baseie-se nas seguintes regras importantes:
 
 - Use a tabela "chatbot_educacional"
@@ -564,7 +564,7 @@ def tela_inscricoes(resumo=False):
         inscricoes_por_motivo = df['objecao'].value_counts().head(3) if 'objecao' in df.columns else "Não disponível"
 
         prompt_base = f"""
-        Você é um analista de dados da Faculdade Fuzati e precisa apresentar um resumo claro e estratégico para gestores da área.
+        Você é um analista de dados da Faculdade Nova Aurora e precisa apresentar um resumo claro e estratégico para gestores da área.
 
         Gere um resumo analítico e assertivo sobre os dados de inscrições com base nas informações abaixo. Utilize uma linguagem clara, profissional e voltada para gestores da área educacional. Considere regras de negócio como: cursos com maior volume tendem a receber mais investimento; processos seletivos específicos podem impactar a etapa da inscrição; e objeções indicam barreiras na jornada. Destaque padrões, alertas e boas oportunidades. Os dados estão entre colchetes:
 
@@ -660,7 +660,7 @@ def tela_matriculas(resumo=False):
         matriculados_por_motivo = df['objecao'].value_counts().head(3) if 'objecao' in df.columns else "Não disponível"
 
         prompt_base = f"""
-        Você é um analista de dados da Faculdade Fuzati e precisa apresentar um resumo claro e estratégico para gestores da área.
+        Você é um analista de dados da Faculdade Nova Aurora e precisa apresentar um resumo claro e estratégico para gestores da área.
 
         Gere um resumo analítico e assertivo sobre os dados de matriculados com base nas informações abaixo. Utilize uma linguagem clara, profissional e voltada para gestores da área educacional. Considere regras de negócio como: cursos com maior volume tendem a receber mais investimento; processos seletivos específicos podem impactar a etapa da inscrição; e objeções indicam barreiras na jornada. Destaque padrões, alertas e boas oportunidades. Os dados estão entre colchetes:
 
