@@ -1,5 +1,5 @@
 
-# 🤖 Agente de IA - Faculdade Fuzati
+# 🤖 Agente de IA - Faculdade Nova Aurora
 
 Este projeto é uma **adaptação de um sistema real em produção** que combina **Inteligência Artificial**, **análises automatizadas** e **visualizações interativas** para facilitar a tomada de decisão no setor educacional.
 
