@@ -26,6 +26,17 @@ Apesar de conter uma base fictícia (gerada com `faker`), a estrutura e funciona
 
 ---
 
+## Visão do App
+
+<img width="1904" height="874" alt="image" src="https://github.com/user-attachments/assets/3e39cc70-7dc3-41e9-afe4-68f58397e892" />
+
+
+
+
+
+
+
+
 ## 🧩 Arquitetura
 
 ```plaintext
