@@ -15,12 +15,6 @@ Apesar de conter uma base fictícia (gerada com `faker`), a estrutura e funciona
 
 ## 🧠 Funcionalidades Principais
 
-- 📊 **Dashboard com os principais KPIs** de inscrições e matrículas.
-- 🤔 **Seção de perguntas frequentes** com análises prontas para facilitar a navegação.
-- 🗣️ **Campo de pergunta livre** com interpretação em linguagem natural e análises automáticas via ChatGPT.
-- 📈 **Geração de resumos inteligentes** com gráficos e texto explicativo sobre dados de inscrições/matrículas.
-- 📂 **Exportação personalizada**: selecione filtros, colunas específicas e exporte os dados em `.xlsx`.
-- 📜 **Histórico de interações**: todas as perguntas e respostas ficam salvas para posterior análise.
 - 📎 **Link direto para dashboards complementares** desenvolvidos em Looker Studio.
 - 🌐 **Workflow no GitHub Actions** que mantém o app sempre ativo.
 
@@ -28,14 +22,45 @@ Apesar de conter uma base fictícia (gerada com `faker`), a estrutura e funciona
 
 ## Visão do App
 
-<img width="1904" height="874" alt="image" src="https://github.com/user-attachments/assets/3e39cc70-7dc3-41e9-afe4-68f58397e892" />
+<img width="1889" height="795" alt="image" src="https://github.com/user-attachments/assets/1df57516-0483-49fc-9aa5-983e0ead32ac" />
 
 
+- 🤔 **Seção de perguntas frequentes** com análises prontas para facilitar a navegação.
+
+<img width="1883" height="677" alt="image" src="https://github.com/user-attachments/assets/5800d99f-ab02-402b-846a-2e61732503ec" />
 
 
+- 🗣️ **Campo de pergunta livre** com interpretação em linguagem natural e análises automáticas via ChatGPT.
+
+<img width="1888" height="745" alt="image" src="https://github.com/user-attachments/assets/db77669b-3dda-4309-8766-d7e3c9196123" />
 
 
+- 📈 **Geração de resumos inteligentes** com gráficos e texto explicativo sobre dados de inscrições/matrículas.
 
+<img width="1897" height="892" alt="image" src="https://github.com/user-attachments/assets/e122bbde-046b-499f-b3f4-77d73ee72e22" />
+
+<img width="1896" height="815" alt="image" src="https://github.com/user-attachments/assets/8f00d22d-a3c5-4e72-863a-dae7dedc7cb8" />
+
+
+- 📂 **Exportação personalizada**: selecione filtros, colunas específicas e exporte os dados em `.xlsx`.
+
+<img width="1912" height="864" alt="image" src="https://github.com/user-attachments/assets/178dc380-d416-40ee-a225-8313e1763c27" />
+
+<img width="1895" height="884" alt="image" src="https://github.com/user-attachments/assets/f4cc6696-60e3-4f20-92ff-f6d44f399576" />
+
+
+- 📜 **Histórico de interações**: todas as perguntas e respostas ficam salvas para posterior análise.
+
+<img width="1901" height="954" alt="image" src="https://github.com/user-attachments/assets/085648ed-e127-4126-bb21-0131dc3c0ab7" />
+
+
+- 📊 **Dashboard com os principais KPIs** de inscrições e matrículas.
+
+<img width="1217" height="750" alt="image" src="https://github.com/user-attachments/assets/f8623d71-7234-42f9-97a1-adb2b09dbc00" />
+
+<img width="1249" height="789" alt="image" src="https://github.com/user-attachments/assets/8293e94f-5558-4bff-91f5-af7a45e1a446" />
+
+---
 
 ## 🧩 Arquitetura
 
@@ -68,36 +93,6 @@ Google BigQuery ← ETL em Python (Fake Data com Faker)
 - **Plotly** (gráficos interativos)
 - **Pandas / NumPy**
 - **GitHub Actions** (workflow para manter app online)
-
----
-
-## 🧪 Como Rodar Localmente
-
-```bash
-# Clone o repositório
-git clone https://github.com/seu-usuario/agente-ia-faculdade-fuzati.git
-cd agente-ia-faculdade-fuzati
-
-# Crie um ambiente virtual
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# Instale as dependências
-pip install -r requirements.txt
-
-# Execute o app
-streamlit run app.py
-```
-
-> ⚠️ Certifique-se de configurar suas **credenciais do Google Cloud** e **API Key do OpenAI** no `.env` ou como variáveis de ambiente.
-
----
-
-## ☁️ Observações
-
-- O ETL nesta versão é **simplificado e executado localmente**, apenas como referência. No projeto original, ele é mais complexo e roda periodicamente em um **servidor privado na nuvem**.
-- A base de dados é **fictícia**, mas simula o comportamento real do sistema.
-- O foco está nas **funcionalidades do agente de IA** e **interface do dashboard**.
 
 ---
 
